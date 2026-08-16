@@ -1,6 +1,7 @@
 /*   Find the second largest element of an array   */
 #include <stdio.h>
 #include <limits.h>
+#include <stdbool.h>
 
 
 int second_largest(int arr[], int n){

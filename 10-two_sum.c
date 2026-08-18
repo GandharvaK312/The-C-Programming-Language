@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define OFFSET 1001
+#define SEEN_SIZE 2001 // to hold any possible values from -1000 to 1000
+#define OFFSET 1000 // to avoid negative indices
 
 bool two_sum_brute_force(int arr[], int n, int k){ // O(n^2)
 	
@@ -16,10 +17,10 @@ bool two_sum_brute_force(int arr[], int n, int k){ // O(n^2)
 
 bool two_sum(int arr[], int n, int k){
 
-	int seen[ n + OFFSET ];
+	bool seen[SEEN_SIZE] = {0};
 	for(int i = 0; i < n; i ++){
-		if( seen[k - arr[i]] == 1 ) return 1;
-		seen[arr[i]] = 1;
+		if( seen[OFFSET + k - arr[i]] == 1 ) return 1;
+		seen[OFFSET + arr[i]] = 1;
 	}
 	return 0;
 }
@@ -38,6 +39,6 @@ int main(void){
 	if( scanf("%d", &k) != 1 ) return 1;
 
 //	two_sum_brute_force(arr, n, k);
-	two_sum(arr, n, k);
+	printf("%d\n", two_sum(arr, n, k));
 	return 0;
 }

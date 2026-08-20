@@ -1,5 +1,7 @@
+#include <iso646.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define TABLE_SIZE 1000
 
@@ -60,7 +62,7 @@ void freeTable(Node* table[]){
 	}
 }
 
-bool twoSum(int arr[], int n, int k, int* idx1, int* idx2){
+/*bool twoSum(int arr[], int n, int k, int* idx1, int* idx2){
 	Node* table[TABLE_SIZE] = {NULL};
 	int x;
 	for(int i = 0; i < n; i ++){
@@ -75,8 +77,49 @@ bool twoSum(int arr[], int n, int k, int* idx1, int* idx2){
 	}
 	freeTable(table);
 	return 0;
+}*/
+
+int* twoSum(int* nums, int numsSize, int target, int* returnSize){
+	Node* table[TABLE_SIZE] = {NULL};
+	int x;
+	for(int i = 0; i < numsSize; i ++){
+		int complement = target - *(nums + i);
+		if(tableSearch(table, complement, &x) == 1){
+		int* result_list = (int*)malloc(2*sizeof(int));
+			*(result_list) = i;
+			*(result_list + 1) = x;
+			*returnSize = 2;
+			freeTable(table);
+			return result_list;
+		}
+		tableInsert(table, *(nums + i), i);
+	}
+	freeTable(table);
+	*returnSize = 0;
+	return NULL;
 }
 
 int main(void){
+	int n;
+	if(scanf("%d", &n) != 1 || n < 1) return 1;
+
+	int nums[n];
+	for(int i = 0; i < n; i ++){
+		scanf("%d", (nums + i));
+	}
+	int numsSize = sizeof(nums)/sizeof(nums[0]);
+	int target;
+	if(scanf("%d", &target) != 1) return 1;
+
+	int returnSize;
+	
+	int* result = (int*)malloc(2*sizeof(int));
+	result = twoSum(nums, numsSize, target, &returnSize);
+
+	printf("{");
+	for(int i = 0; i < returnSize; i ++){
+		printf("%d", *(result + i));
+	} printf("}\n");
+
 	return 0;
 }

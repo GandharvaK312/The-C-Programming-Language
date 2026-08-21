@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// O(n2) time
 int min_till_n(int prices[], int n){
 	int min = prices[0];
 
@@ -17,25 +18,31 @@ int max_profit(int profits[], int n){
 	return max;
 }
 
+// O(n) time, O(1) space
+int maxProfit(int prices[], int n){
+	int min_so_far = prices[0], best_profit = 0;
+	for(int i = 1; i < n; i ++){
+		int profit = prices[i] - min_so_far;
+		if( profit > best_profit ) best_profit = profit;
+		if( prices[i] < min_so_far ) min_so_far = prices[i];
+	}
+	return best_profit;
+}
+
 int main(void){
 	printf("Buy/Sell Stock\n");
 	
-	int n;
+	int n = 6;
 	scanf("%d", &n);
 
 	int prices[n];
-	
+
 	for(int i = 0; i < n; i ++){
 		scanf("%d", &prices[i]);
 	}
 
-	int profits[n];
+	int profit = maxProfit(prices, n);
+	printf("profit: %d\n", profit);
 
-	for(int i = 0; i < n; i ++){
-		int min = min_till_n(prices, i);
-		profits[i] = prices[i] - min;
-	}
-
-	printf("Max profit: %d\n", max_profit(profits, n));
 	return 0;
 }
